@@ -6,7 +6,7 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 contract FundMe{
 
     uint256 public minimumUsd = 5;
-github    
+    
     function fund() public payable {
         require(msg.value > minimumUsd, "didn't send enough");
     }
