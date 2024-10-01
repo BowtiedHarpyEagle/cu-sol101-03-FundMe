@@ -13,9 +13,12 @@ contract FundMe{
 
     function withdraw() public {}
 
-    function getPrice() public {
+    function getPrice() public view returns(uint256){
         // Address 0x5fb1616F78dA7aFC9FF79e0371741a747D2a7F22
         // ABI 
+        AggregatorV3Interface priceFeed = AggregatorV3Interface(0x5fb1616F78dA7aFC9FF79e0371741a747D2a7F22);
+        (, int256 price, , , ) = priceFeed.latestRoundData();
+        return uint256(price * 1e10);
 
     }
 
