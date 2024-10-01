@@ -5,10 +5,10 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 
 contract FundMe{
 
-    uint256 public minimumUsd = 5;
+    uint256 public minimumUsd = 5e18;
     
     function fund() public payable {
-        require(msg.value > minimumUsd, "didn't send enough");
+        require(getConversionRate(msg.value) >= minimumUsd, "didn't send enough");
     }
 
     function withdraw() public {}
@@ -22,7 +22,11 @@ contract FundMe{
 
     }
 
-    function getConversionRate() public {}
+    function getConversionRate(uint256 ethAmount) public view returns(uint256) {
+        uint256 ethPrice = getPrice();
+        uint256 ethAmountInUsd = (ethAmount * ethPrice) / 1e18;
+        return(ethAmountInUsd);
+    }
 
     function getVersion() public view returns(uint256) {
         return AggregatorV3Interface(0x5fb1616F78dA7aFC9FF79e0371741a747D2a7F22).version();
